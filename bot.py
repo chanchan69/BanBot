@@ -1,13 +1,15 @@
+import discord
 from discord.ext import commands
 
-TOKEN = "your bot token"
+TOKEN = ""
 BLACKLIST = open("blacklist.txt", "r").read().splitlines()
 
-bot = commands.Bot(command_prefix="!")
+bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 
 @bot.event
 async def on_member_join(member):
-    if [member.username == i for i in BLACKLIST]:
-        member.ban(reason="blacklisted username / automatic")
+    print(member.display_name + " was banned")
+    if [member.display_name == i for i in BLACKLIST]:
+        await member.ban(reason="blacklisted username / automatic")
 
 bot.run(TOKEN)
